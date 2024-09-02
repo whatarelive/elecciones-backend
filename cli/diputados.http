@@ -1,0 +1,32 @@
+### Recuperar todos los diputados.
+GET http://localhost:4000/api/diputado/
+
+
+### Recuperar todos los diputados de una provincia.
+GET http://localhost:4000/api/diputado/habana
+
+
+### Para crear un diputado.
+POST http://localhost:4000/api/diputado/
+Content-Type: application/json
+
+{
+    "name": "Jose Luis",
+    "age": 29,
+    "provincia": "Pinar del Rio",
+    "municipio": "Bahia Honda",
+    "cargo": "Vendedor de Churros"
+}
+
+
+### Para actualizar un diputado
+PATCH http://localhost:4000/api/diputado/1
+Content-Type: application/json
+
+{
+    "age": 30,
+    "cargo": "Vendedor de Mani"
+}
+
+### Para eliminar un diputado
+DELETE http://localhost:4000/api/diputado/1

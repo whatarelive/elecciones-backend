@@ -32,7 +32,7 @@
       "project": "./tsconfig.json"
     },
     "extends": [
-      "./node_modules/ts-standard/resolve-tsconfig.js"
+      "./node_modules/ts-standard/eslintrc.json"
     ]
   }
 }
