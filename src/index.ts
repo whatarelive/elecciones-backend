@@ -1,26 +1,26 @@
 import express from 'express'
 import cors from 'cors'
 import { config } from 'dotenv'
-import { diputadosRouter } from './routers/diputados'
+import { deputiesRouter } from './routers/deputy'
 
-// Creacion de la aplicacion de Express.
+// Creación de la aplicación de Express.
 const app = express()
 
-// Configuariones de seguridad.
+// Configuraciones de seguridad.
 app.disable('x-powered-by')
 
 // Middlewares
-app.use(express.json()) // Configuracion para convertir el body a JSON.
-app.use(cors()) // Configuracion previa de Cors.
+app.use(express.json()) // Configuración para convertir el body a JSON.
+app.use(cors()) // Configuración previa de Cors.
 
-// Configuracion de Routers.
-app.use('/api/diputado', diputadosRouter) // Responde a todas las rutas del recurso [diputados].
+// Configuración de Routers.
+app.use('/api/deputies', deputiesRouter) // Responde a todas las rutas del recurso [diputados].
 
-// Configuracion del puerto de escucha.
+// Configuración del puerto de escucha.
 config()
 const PORT = process.env.PORT ?? 4001
 
-// Creacion del puerto de escucha de la aplicacion de Express.
+// Creación del puerto de escucha de la aplicación de Express.
 app.listen(PORT, () => {
-  console.log(`Servidor corriendo en el puerto ${PORT}`)
+  console.log(`Server running on port: ${PORT}`)
 })

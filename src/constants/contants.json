@@ -1,0 +1,250 @@
+[
+  {
+    "province": "Pinar del Rio",
+    "towns": [
+      "Consolación del Sur",
+      "Guane",
+      "La Palma",
+      "Los Palacios",
+      "Mantua",
+      "Minas de Matahambre",
+      "Pinar del Rio",
+      "San Juan y Martinez",
+      "San Luis",
+      "Sandino",
+      "Viñales"
+    ]
+  },
+  {
+    "province": "Artemisa",
+    "towns": [
+      "Alquizar",
+      "Artemisa",
+      "Bauta",
+      "Caimito",
+      "Guanajay",
+      "Guira de Melena",
+      "Mariel",
+      "San Antonio de los Baños",
+      "Bahía Honda",
+      "San Cristóbal",
+      "Candelaria"
+    ]
+  },
+  {
+    "province": "La Habana",
+    "towns": [
+      "Arroyo Naranjo",
+      "Boyeros",
+      "Centro Habana",
+      "Cerro",
+      "Cotorro",
+      "Diez de Octubre",
+      "Guanabacoa",
+      "Habana del Este",
+      "Habana Vieja",
+      "Marianao",
+      "La Lisa",
+      "Playa",
+      "Plaza de la Revolución",
+      "Regla",
+      "San Miguel del Padron"
+    ]
+  },
+  {
+    "province": "Mayabeque",
+    "towns": [
+      "Batabanó",
+      "Bejucal",
+      "Guines",
+      "Jaruco",
+      "Madruga",
+      "Melena del Sur",
+      "Nueva Paz",
+      "Quivicán",
+      "San José de las Lajas",
+      "San Nicolás de Bari",
+      "Santa Cruz del Norte"
+    ]
+  },
+  {
+    "province": "Isla de la Juventud",
+    "towns": [
+      "Isla de la Juventud"
+    ]
+  },
+  {
+    "province": "Matanzas",
+    "towns": [
+      "Calimete",
+      "Cárdenas",
+      "Ciénaga de Zapata",
+      "Colón",
+      "Jaguey Grande",
+      "Jovellanos",
+      "Limonar",
+      "Los Arabos",
+      "Martí",
+      "Matanzas",
+      "Pedro Betancourt",
+      "Perico",
+      "Unión de Reyes"
+    ]
+  },
+  {
+    "province": "Villa Clara",
+    "towns": [
+      "Caibarién",
+      "Camajuaní",
+      "Cifuentes",
+      "Corralillo",
+      "Encrucijada",
+      "Manicaragua",
+      "Placetas",
+      "Quemado de Güines",
+      "Ranchuelo",
+      "Remedios",
+      "Sagua la Grande",
+      "Santa Clara",
+      "Santo Domingo"
+    ]
+  },
+  {
+    "province": "Cienfuegos",
+    "towns": [
+      "Abreus",
+      "Aguada de Pasajeros",
+      "Cienfuegos",
+      "Cruces",
+      "Cumanayagua",
+      "Palmira",
+      "Rodas",
+      "Lajas"
+    ]
+  },
+  {
+    "province": "Sancti Spíritus",
+    "towns": [
+      "Cabaiguán",
+      "Fomento",
+      "Jatibonico",
+      "La Sierpe",
+      "Sancti Spíritus",
+      "Taguasco",
+      "Trinidad",
+      "Yaguajay"
+    ]
+  },
+  {
+    "province": "Ciego de Ávila",
+    "towns": [
+      "Ciro Redondo",
+      "Baraguá",
+      "Bolivia",
+      "Chambas",
+      "Ciego de Ávila",
+      "Florencia",
+      "Majagua",
+      "Morón",
+      "Primero de Enero",
+      "Venezuela"
+    ]
+  },
+  {
+    "province": "Camagüey",
+    "towns": [
+      "Camagüey",
+      "Carlos Manuel de Céspedes",
+      "Esmeralda",
+      "Florida",
+      "Guáimaro",
+      "Jimaguayú",
+      "Minas",
+      "Najasa",
+      "Nuevitas",
+      "Santa Cruz del Sur",
+      "Sibanicú",
+      "Sierra de Cubitas",
+      "Vertientes"
+    ]
+  },
+  {
+    "province": "Las Tunas",
+    "towns": [
+      "Amancio",
+      "Colombia",
+      "Jesús Menéndez",
+      "Jobabo",
+      "Las Tunas",
+      "Majibacoa",
+      "Manatí",
+      "Puerto Padre"
+    ]
+  },
+  {
+    "province": "Holguín",
+    "towns": [
+      "Antilla",
+      "Báguanos",
+      "Banes",
+      "Cacocum",
+      "Calixto García",
+      "Cueto",
+      "Frank País",
+      "Gibara",
+      "Holguín",
+      "Mayarí",
+      "Moa",
+      "Rafael Freyre",
+      "Sagua de Tánamo",
+      "Urbano Noris"
+    ]
+  },
+  {
+    "province": "Granma",
+    "towns": [
+      "Bartolomé Masó",
+      "Bayamo",
+      "Buey Arriba",
+      "Campechuela",
+      "Cauto Cristo",
+      "Guisa",
+      "Jiguaní",
+      "Manzanillo",
+      "Media Luna",
+      "Niquero",
+      "Pilón",
+      "Río Cauto",
+      "Yara"
+    ]
+  },
+  {
+    "province": "Santiago de Cuba",
+    "towns": [
+      "Contramaestre",
+      "Guamá",
+      "Julio Antonio Mella",
+      "Palma Soriano",
+      "San Luis",
+      "Santiago de Cuba",
+      "Segundo Frente",
+      "Songo la Maya",
+      "Tercer Frente"
+    ]
+  },
+  {
+    "province": "Guantánamo",
+    "towns": [
+      "Baracoa",
+      "Caimanera",
+      "El Salvador",
+      "Guantánamo",
+      "Imías",
+      "Maisí",
+      "Manuel Tames",
+      "Niceto Pérez",
+      "San Antonio del Sur",
+      "Yateras"
+    ]
+  }
+]

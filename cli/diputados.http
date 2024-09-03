@@ -1,32 +1,34 @@
 ### Recuperar todos los diputados.
-GET http://localhost:4000/api/diputado/
+GET http://localhost:4000/api/deputies/
 
 
 ### Recuperar todos los diputados de una provincia.
-GET http://localhost:4000/api/diputado/habana
+GET http://localhost:4000/api/deputies/habana
 
 
-### Para crear un diputado.
-POST http://localhost:4000/api/diputado/
+### Para crear un deputies.
+POST http://localhost:4001/api/deputies/
 Content-Type: application/json
 
 {
-    "name": "Jose Luis",
+    "name": "Jose Luis Hernandez",
     "age": 29,
-    "provincia": "Pinar del Rio",
-    "municipio": "Bahia Honda",
-    "cargo": "Vendedor de Churros"
+    "hola:": "imagen",
+    "province": "Pinar del Rio",
+    "town": "Bahia Honda",
+    "position": "Vendedor de Churros",
+    "biography": "fdnvbsdbiufviafdvbiabfivbafibviadfvbiadfvbihabdvfhibadhvbahdbvfhad"
 }
 
 
-### Para actualizar un diputado
-PATCH http://localhost:4000/api/diputado/1
+### Para actualizar un deputies
+PATCH http://localhost:4000/api/deputies/1
 Content-Type: application/json
 
 {
     "age": 30,
-    "cargo": "Vendedor de Mani"
+    "position": "Vendedor de Mani"
 }
 
-### Para eliminar un diputado
-DELETE http://localhost:4000/api/diputado/1
+### Para eliminar un deputies
+DELETE http://localhost:4000/api/deputies/1
