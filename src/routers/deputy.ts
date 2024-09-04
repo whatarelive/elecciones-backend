@@ -1,27 +1,21 @@
 import { Router } from 'express'
-import {
-  createDeputy, getDeputies, getDeputiesForProvince,
-  updateDeputy, deleteDeputy
-} from '../controllers/deputy'
-import { validateField } from '../middlewares/validate-field'
-import { check } from 'express-validator'
+import * as controller from '../controllers/deputy'
+import * as validate from '../validations/validationChains'
 
+// Creación del router del recurso [Diputado].
 export const deputiesRouter = Router()
 
-deputiesRouter.get('/', getDeputies)
+// Ruta para devolver todos los [Diputado].
+deputiesRouter.get('/', controller.getDeputies)
 
-deputiesRouter.get('/:province', getDeputiesForProvince)
+// Ruta para devolver todos los [Diputado] de una {provincia}.
+deputiesRouter.get('/:province', validate.provinceParamValidationChain, controller.getDeputiesForProvince)
 
-deputiesRouter.post(
-  '/', 
-  [
-    check('name', 'El campo es requerido').notEmpty(),
-    check('province', 'El campo es requerido').notEmpty(),
-    validateField
-  ], 
-  createDeputy
-)
+// Ruta para crear un nuevo [Diputado].
+deputiesRouter.post('/', validate.deputyValidationChain, controller.createDeputy)
 
-deputiesRouter.put('/:id', updateDeputy)
+// Ruta para actualizar un [Diputado] por su {id}.
+deputiesRouter.put('/:id', validate.idParamValidationChain, controller.updateDeputy)
 
-deputiesRouter.delete('/:id', deleteDeputy)
+// Ruta para eliminar un [Diputado] por su {id}.
+deputiesRouter.delete('/:id', validate.idParamValidationChain, controller.deleteDeputy)

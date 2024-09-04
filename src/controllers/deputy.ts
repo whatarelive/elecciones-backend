@@ -7,7 +7,7 @@ export const getDeputies = async (_req: Request, res: Response) => {
   })
 }
 
-export const getDeputiesForProvince = (req: Request, res: Response) => {
+export const getDeputiesForProvince = async (req: Request, res: Response) => {
   const { province } = req.params
 
   res.json({
@@ -16,7 +16,7 @@ export const getDeputiesForProvince = (req: Request, res: Response) => {
   })
 }
 
-export const createDeputy = (req: Request, res: Response) => {
+export const createDeputy = async (req: Request, res: Response) => {
   res.status(201).json({
     ok: true,
     diputado: req.body,

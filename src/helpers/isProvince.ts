@@ -1,12 +1,10 @@
 import { Region } from '../interfaces/interfaces';
 
 interface Props {
-    data: {
-      province: string;
-    },
+    data: string,
     validRegion: Region[],
 }
 
 export const isProvince = ({data, validRegion}: Props) => {
-    return validRegion.find((e) => e.province === data.province);
+    return validRegion.find((e) => e.province === data);
 };

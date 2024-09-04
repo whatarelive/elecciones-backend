@@ -7,15 +7,14 @@ GET http://localhost:4000/api/deputies/habana
 
 
 ### Para crear un deputies.
-POST http://localhost:4001/api/deputies/
+POST http://localhost:4000/api/deputies/
 Content-Type: application/json
 
 {
     "name": "Jose Luis Hernandez",
     "age": 29,
-    "hola:": "imagen",
-    "province": "Pinar del Rio",
-    "town": "Bahia Honda",
+    "image": "https://localhost:4000/deputies/1/image1.jpg",
+    "town": "Consolación del Sur",
     "position": "Vendedor de Churros",
     "biography": "fdnvbsdbiufviafdvbiabfivbafibviadfvbiadfvbihabdvfhibadhvbahdbvfhad"
 }
