@@ -8,7 +8,7 @@ interface Props {
 export const isTown = ({ data, validRegion }: Props) => {
   for (const region of validRegion) {
     if (region.towns.includes(data)) {
-      return true;
+      return true
     }
   }
 }
