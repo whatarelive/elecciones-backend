@@ -4,6 +4,7 @@ import { validateField } from '../middlewares/validate-field'
 import validRegion from '../constants/contants.json'
 import { isValidVoter } from '../helpers/isValidVoter'
 
+// Validación de los campos: {province} y {town}.
 const auxiliaryValidationChain = [
   body('province', 'El campo {province} es requerido.')
     .notEmpty()
@@ -15,6 +16,7 @@ const auxiliaryValidationChain = [
     .withMessage('El valor del campo {town} no es valido.'),
 ]
 
+// Validación de los campos: {name} y {age}.
 const basicInformationValidationChain = [
   body('name').notEmpty()
     .isString()
@@ -25,46 +27,13 @@ const basicInformationValidationChain = [
     .isInt({ min: 18, max: 95 }),
 ]
 
-export const deputyValidationChain = [
-  body(['image', 'position'], 'El campo es requerido.')
-    .notEmpty()
-    .isString(),
-  body('biography')
-    .notEmpty()
-    .isString()
-    .isLength({ max: 300 }),
-  ...basicInformationValidationChain,
-  ...auxiliaryValidationChain,
-  validateField
-]
-
-export const votersCreateValidationChain = [
-  body('CI', 'El campo es requerido.')
-    .isNumeric()
-    .isInt()
-    .isLength({ min: 11, max: 11 }),
-  ...basicInformationValidationChain,
-  ...auxiliaryValidationChain,
-  validateField
-]
-
-export const votersUpdateValidationChain = [
-  body('isValidVoter', 'El campo es requerido.')
-    .notEmpty()
-    .custom((data) => isValidVoter({data}))
-    .withMessage('El campo no cumple con el tipo requerido.'),
-  ...votersCreateValidationChain
-]
-
-export const adminValidationChain = []
-
+// Validación de Params de la Request: [updateDeputy & deleteDeputy]
 export const idParamValidationChain = [
-  param('id', 'El campo {id} es requerido.')
-    .notEmpty()
-    .isMongoId(),
+  param('id', 'No es un id de MongoDB.').notEmpty().isMongoId(),
   validateField
 ]
 
+// Validación de Params de la Request: [getDeputiesForProvince]
 export const provinceParamValidationChain = [
   param('province', 'El campo {province} es requerido.')
     .notEmpty()
@@ -72,3 +41,62 @@ export const provinceParamValidationChain = [
     .withMessage("El valor del campo {province} es no es valido."),
   validateField
 ]
+
+// Validación de Params de la Request: [getVotersForTownInProvince]
+export const townAndProvinceParamValidationChain = [
+  param('town', 'El campo {province} es requerido.')
+    .notEmpty()
+    .custom((data) => isTown({ data, validRegion }))
+    .withMessage('El valor del campo {town} no es valido.'),
+  ...provinceParamValidationChain
+]
+
+// Validación de los campos del diputado:
+export const deputyCreateValidationChain = [
+  body(['image', 'position'], 'El campo es requerido.')
+    .notEmpty()
+    .isString(),
+  body('biography')
+    .notEmpty()
+    .isString()
+    .isLength({ max: 300 }),
+  ...basicInformationValidationChain, // nombre y edad
+  ...auxiliaryValidationChain, // provincia y municipio
+  validateField
+]
+
+// Validación de los campos de la Request: [updateVoter]
+export const deputyUpdateValidationChain = [
+  ...idParamValidationChain,
+  ...deputyCreateValidationChain
+]
+
+// Validación de los campos de la Request: [createVoter]
+export const votersCreateValidationChain = [
+  body('CI', 'El campo es requerido')
+    .matches(/^[0-9\s]+$/)
+    .isLength({ min: 11, max: 11 })
+    .withMessage('El valor no es un número de CI valido.'),
+  ...basicInformationValidationChain, // nombre y edad
+  ...auxiliaryValidationChain, // provincia y municipio
+  validateField
+]
+
+// Validación de los campos de la Request: [updateVoter]
+export const votersUpdateValidationChain = [
+  body('isValidVoter', 'El campo es requerido.')
+    .notEmpty()
+    .custom((data) => isValidVoter({data}))
+    .withMessage('El campo no cumple con el tipo requerido.'),
+  ...idParamValidationChain,
+  ...votersCreateValidationChain
+]
+
+// Validación de los campos de la Request: [loginVoter]
+export const votersLoginValidationChain = [
+  votersCreateValidationChain[0],
+  basicInformationValidationChain[0],
+  validateField
+]
+
+// export const adminLoginValidationChain = []

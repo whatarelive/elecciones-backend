@@ -12,10 +12,10 @@ deputiesRouter.get('/', controller.getDeputies)
 deputiesRouter.get('/:province', validate.provinceParamValidationChain, controller.getDeputiesForProvince)
 
 // Ruta para crear un nuevo [Diputado].
-deputiesRouter.post('/', validate.deputyValidationChain, controller.createDeputy)
+deputiesRouter.post('/', validate.deputyCreateValidationChain, controller.createDeputy)
 
 // Ruta para actualizar un [Diputado] por su {id}.
-deputiesRouter.put('/:id', validate.idParamValidationChain, controller.updateDeputy)
+deputiesRouter.put('/:id', validate.deputyUpdateValidationChain, controller.updateDeputy)
 
 // Ruta para eliminar un [Diputado] por su {id}.
 deputiesRouter.delete('/:id', validate.idParamValidationChain, controller.deleteDeputy)

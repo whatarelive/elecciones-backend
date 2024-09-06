@@ -1,10 +1,8 @@
 ### Recuperar todos los diputados.
 GET http://localhost:4000/api/deputies/
 
-
 ### Recuperar todos los diputados de una provincia.
 GET http://localhost:4000/api/deputies/habana
-
 
 ### Para crear un deputies.
 POST http://localhost:4000/api/deputies/
@@ -19,9 +17,8 @@ Content-Type: application/json
     "biography": "fdnvbsdbiufviafdvbiabfivbafibviadfvbiadfvbihabdvfhibadhvbahdbvfhad"
 }
 
-
 ### Para actualizar un deputies
-PATCH http://localhost:4000/api/deputies/1
+PUT http://localhost:4000/api/deputies/1
 Content-Type: application/json
 
 {
