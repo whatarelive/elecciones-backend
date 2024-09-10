@@ -1,8 +1,7 @@
 import { body, param } from 'express-validator'
-import { isProvince, isTown } from '../helpers'
+import { isProvince, isTown, isValidVoter } from '../helpers'
 import { validateField } from '../middlewares/validate-field'
 import validRegion from '../constants/contants.json'
-import { isValidVoter } from '../helpers/isValidVoter'
 
 // Validación de los campos: {province} y {town}.
 const auxiliaryValidationChain = [
@@ -99,4 +98,27 @@ export const votersLoginValidationChain = [
   validateField
 ]
 
-// export const adminLoginValidationChain = []
+// Validación de los campos de la Request: [loginAdmin]
+export const adminLoginValidationChain = [
+  body('user', 'El campo es requerido.')
+    .notEmpty()
+    .isString(),
+  body('password', 'El campo es requerido.')
+    .notEmpty()
+    .isStrongPassword(),
+  validateField
+]
+
+// Validación de los campos de la Request: [UpdateAdmin]
+export const adminUpdateValidationChain = [
+  ...adminLoginValidationChain,
+]
+
+// Validación de los campos de la Request: [SetVotes]
+export const setVotesValidationChain = [
+  body(['voterId', 'deputyId'], 'El campo es requerido.')
+    .notEmpty()
+    .isMongoId()
+    .withMessage('El valor no es un id valido de Mongo'),
+  validateField
+]

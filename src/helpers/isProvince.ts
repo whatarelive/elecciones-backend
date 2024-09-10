@@ -12,6 +12,6 @@ export const isProvince = ({ data, validRegion }: Props) => {
   return validRegion.find((e) => {
     provinceTrim = e.province.toLowerCase().replace(/\s/g, '')
 
-    return provinceTrim === dataTrim && true
+    return provinceTrim === dataTrim
   })
 }

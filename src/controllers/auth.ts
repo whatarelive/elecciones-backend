@@ -22,6 +22,8 @@ export const loginAdmin = async (req: Request, res: Response) => {
 export const updateAdmin = async (req: Request, res: Response) => {
   const { user, password } = req.body
 
+  console.log(user);
+
   res.status(200).json({
     ok: true,
     voter: { user, password },

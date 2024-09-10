@@ -9,10 +9,10 @@ export const authRouter = Router()
 authRouter.post('/loginVoter', validate.votersLoginValidationChain, controller.loginVoter)
 
 // Ruta para que un admin inicie sesion.
-authRouter.post('/loginAdmin', controller.loginAdmin)
+authRouter.post('/loginAdmin', validate.adminLoginValidationChain, controller.loginAdmin)
 
 // Ruta para editar la información del admin.
-authRouter.patch('/editAdmin', controller.updateAdmin)
+authRouter.patch('/editAdmin', validate.adminUpdateValidationChain, controller.updateAdmin)
 
 // Ruta para revalidar JSON Web Token.
 authRouter.post('/renew', controller.revalidateJWT)
