@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { validarJWT } from '../middlewares/validate-jwt'
 import * as controller from '../controllers/auth'
 import * as validate from '../validations/validationChains'
 
@@ -15,4 +16,4 @@ authRouter.post('/loginAdmin', validate.adminLoginValidationChain, controller.lo
 authRouter.patch('/editAdmin', validate.adminUpdateValidationChain, controller.updateAdmin)
 
 // Ruta para revalidar JSON Web Token.
-authRouter.post('/renew', controller.revalidateJWT)
+authRouter.post('/renew', validarJWT, controller.revalidateJWT)
