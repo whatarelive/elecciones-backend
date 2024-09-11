@@ -1,7 +1,6 @@
 import { body, param } from 'express-validator'
 import { isProvince, isTown, isValidVoter } from '../helpers'
-import { validateField } from '../middlewares/validate-field'
-import { validarJWT } from '../middlewares/validate-jwt'
+import { validateField, validarJWT } from '../middlewares'
 import validRegion from '../constants/contants.json'
 
 // Validación de los campos: {province} y {town}.
@@ -29,7 +28,7 @@ const basicInformationValidationChain = [
 
 // Validación de Params de la Request: [updateDeputy & deleteDeputy]
 export const idParamValidationChain = [
-  param('id', 'No es un id de MongoDB.').notEmpty().isMongoId(),
+  param('uid', 'No es un id valido.').notEmpty().isMongoId(),
   validateField
 ]
 
@@ -112,8 +111,9 @@ export const adminLoginValidationChain = [
 
 // Validación de los campos de la Request: [UpdateAdmin]
 export const adminUpdateValidationChain = [
-  validarJWT,
+  idParamValidationChain[0],
   ...adminLoginValidationChain,
+  validarJWT,
 ]
 
 // Validación de los campos de la Request: [SetVotes]

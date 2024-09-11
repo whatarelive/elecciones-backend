@@ -29,6 +29,6 @@ export interface Admin extends Pick<BasicInfo, 'name'> {
 }
 
 export interface JWTPayload extends Pick<BasicInfo, 'name'> {
-  uid: string,
+  uid: Types.ObjectId,
   role: Role,
 }
