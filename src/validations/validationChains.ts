@@ -1,6 +1,6 @@
 import { body, param } from 'express-validator'
 import { isProvince, isTown } from '../helpers'
-import { validateField, validarJWT } from '../middlewares'
+import { validateField, validarJWT, validateRole } from '../middlewares'
 import validRegion from '../constants/contants.json'
 
 // Validación de los campos: {province} y {town}.
@@ -115,6 +115,7 @@ export const adminUpdateValidationChain = [
   idParamValidationChain[0],
   ...adminLoginValidationChain,
   validarJWT,
+  validateRole
 ]
 
 // Validación de los campos de la Request: [SetVotes]

@@ -1,8 +1,8 @@
-import express from 'express'
+import { Response } from 'express'
 import { AuthError, ResourceError } from '../errors/CustomErrors'
 
 interface Props {
-    res: express.Response,
+    res: Response,
     error: any,
 }
 

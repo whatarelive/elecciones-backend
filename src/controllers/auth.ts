@@ -1,13 +1,8 @@
-// Librerias 
 import bcryptjs from 'bcryptjs'
 import { Request, Response } from 'express'
-// Funciones auxiliares.
-import { createJwt, handlerError } from '../helpers'
-// Errores Personalizado.
-import { AuthError, ResourceError } from '../errors/CustomErrors';
-// Interfaces
-import { Admin, Role } from '../interfaces/interfaces'
-// Modelos de DB.
+import { createJwt, handlerError, isRole } from '../helpers'
+import { AuthError, ResourceError } from '../errors/CustomErrors'
+import { Admin } from '../interfaces/interfaces'
 import AdminModel from '../model/AdminModel'
 import VoterModel from '../model/VoterModel'
 
@@ -18,7 +13,7 @@ export const loginVoter = async (req: Request, res: Response) => {
   
   try {
     // Buscamos el voter con el name proporcionado.
-    let voter = await VoterModel.findOne({name})
+    const voter = await VoterModel.findOne({name})
 
     // Si el voter no existe lanzamos un error de Resource.
     if (!voter) throw new ResourceError(404, `El votante con el nombre: ${name} no existe.`)
@@ -37,7 +32,7 @@ export const loginVoter = async (req: Request, res: Response) => {
 
   } catch (error) {
     // Manejo especial del error.
-    handlerError({res, error})
+    return handlerError({res, error})
   }
 }
 
@@ -78,13 +73,8 @@ export const loginAdmin = async (req: Request, res: Response) => {
 export const updateAdmin = async (req: Request, res: Response) => {
   // Extraemos los datos necesarios del cuerpo de la request.
   const id = req.params.id
-  // Recuperamos el rol del user o admin extraido del token en los headers.
-  const role = req.header('role')
 
   try {
-    // Comprobamos que tengan la autorizacion requerida el token.
-    if (role !== 'Admin') throw new AuthError(401, 'Autorizacion erronea.')
-
     // Buscamos el admin con el name proporcionado.
     let admin = await AdminModel.findById(id)
 
@@ -124,10 +114,18 @@ export const revalidateJWT = async (req: Request, res: Response) => {
   const name = req.header('name')
   const role = req.header('role')
 
-  const newToken = await createJwt({ uid, name: (name as string), role: (role as Role) })
+  try {  
+    if (!isRole(role)) throw new AuthError(401, 'Role invalido.')
+    if (!name) throw new AuthError(401, 'No se puede crear el token para un usuario desconocido')
 
-  res.json({
-    ok: true,
-    newToken
-  })
-}
+    const newToken = await createJwt({ uid, name, role })
+      
+    res.json({
+      ok: true,
+      token: newToken
+    })
+
+  } catch (error) {
+    return handlerError({res, error})
+  }
+}  

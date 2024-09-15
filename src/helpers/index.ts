@@ -1,5 +1,5 @@
 export * from './isProvince'
 export * from './isTown'
-export * from './isValidVoter'
+export * from './isRole'
 export * from './handlerErrors'
 export * from './jwt'
