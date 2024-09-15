@@ -22,4 +22,4 @@ const DeputySchema = new Schema<Deputy>({
     },
 })
 
-export default model('Deputy', DeputySchema)
+export default model('DeputyModel', DeputySchema)

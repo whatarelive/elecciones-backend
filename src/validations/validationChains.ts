@@ -1,5 +1,5 @@
 import { body, param } from 'express-validator'
-import { isProvince, isTown, isValidVoter } from '../helpers'
+import { isProvince, isTown } from '../helpers'
 import { validateField, validarJWT } from '../middlewares'
 import validRegion from '../constants/contants.json'
 
@@ -28,7 +28,7 @@ const basicInformationValidationChain = [
 
 // Validación de Params de la Request: [updateDeputy & deleteDeputy]
 export const idParamValidationChain = [
-  param('uid', 'No es un id valido.').notEmpty().isMongoId(),
+  param('id', 'No es un id valido.').notEmpty().isMongoId(),
   validateField
 ]
 
@@ -72,23 +72,25 @@ export const deputyUpdateValidationChain = [
 
 // Validación de los campos de la Request: [createVoter]
 export const votersCreateValidationChain = [
-  body('CI', 'El campo es requerido')
+  body('ci', 'El campo es requerido')
+    .isString()
     .matches(/^[0-9\s]+$/)
     .isLength({ min: 11, max: 11 })
     .withMessage('El valor no es un número de CI valido.'),
   ...basicInformationValidationChain, // nombre y edad
   ...auxiliaryValidationChain, // provincia y municipio
-  validateField
+  validateField,
+  validarJWT
 ]
 
 // Validación de los campos de la Request: [updateVoter]
 export const votersUpdateValidationChain = [
   body('isValidVoter', 'El campo es requerido.')
     .notEmpty()
-    .custom((data) => isValidVoter({data}))
+    .isBoolean()
     .withMessage('El campo no cumple con el tipo requerido.'),
   ...idParamValidationChain,
-  ...votersCreateValidationChain
+  ...votersCreateValidationChain,
 ]
 
 // Validación de los campos de la Request: [loginVoter]
@@ -100,12 +102,11 @@ export const votersLoginValidationChain = [
 
 // Validación de los campos de la Request: [loginAdmin]
 export const adminLoginValidationChain = [
-  body('user', 'El campo es requerido.')
+  body('name', 'El campo es requerido.')
     .notEmpty()
     .isString(),
   body('password', 'El campo es requerido.')
-    .notEmpty()
-    .isStrongPassword(),
+    .notEmpty(),
   validateField
 ]
 

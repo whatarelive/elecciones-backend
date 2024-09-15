@@ -9,9 +9,12 @@ export const validarJWT = ( req: express.Request, res: express.Response, next: e
         if (!token) throw new Error("No hay token en la peticion")
 
         const data = jsonwebtoken.verify(token, process.env.SECRET_JWT_SEED!)
+    
         const { uid, name, role } = data as JWTPayload
 
-        req.body.token = { uid, name, role }
+        req.headers['uid'] = uid
+        req.headers['name'] = name
+        req.headers['role'] = role
 
     } catch (error) {
         return res.status(401).json({

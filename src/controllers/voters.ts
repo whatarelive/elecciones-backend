@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
+import { Voter } from '../interfaces/interfaces'
+import VoterModel from '../model/VoterModel'
+import { ResourceError } from '../errors/CustomErrors'
 
 export const getVotersForTownInProvince = async (req: Request, res: Response) => {
-  const {
-    province,
-    town
-  } = req.params
+  const { province,town } = req.params
 
   res.status(200).json({
     ok: true,
@@ -13,6 +13,25 @@ export const getVotersForTownInProvince = async (req: Request, res: Response) =>
 }
 
 export const createVoter = async (req: Request, res: Response) => {
+  const { name, age, ci, province, town, } = req.body
+
+  try {
+    let voter = await VoterModel.findOne({ci})
+    
+    if (voter) throw new ResourceError('')
+
+    const newVoter: Voter = {
+      name, age, ci, province, town,
+      isValidVoter: true 
+    }
+
+    console.log(newVoter)
+
+    
+  } catch (error) {
+    
+  }
+
   res.status(200).json({
     ok: true,
     voter: req.body,

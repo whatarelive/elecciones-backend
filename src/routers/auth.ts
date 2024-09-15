@@ -13,7 +13,7 @@ authRouter.post('/loginVoter', validate.votersLoginValidationChain, controller.l
 authRouter.post('/loginAdmin', validate.adminLoginValidationChain, controller.loginAdmin)
 
 // Ruta para editar la información del admin.
-authRouter.patch('/editAdmin', validate.adminUpdateValidationChain, controller.updateAdmin)
+authRouter.put('/updateAdmin/:id', validate.adminUpdateValidationChain, controller.updateAdmin)
 
 // Ruta para revalidar JSON Web Token.
-authRouter.post('/renew', validarJWT, controller.revalidateJWT)
+authRouter.post('/renew', [validarJWT], controller.revalidateJWT)

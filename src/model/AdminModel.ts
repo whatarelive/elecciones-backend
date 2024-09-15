@@ -10,4 +10,4 @@ const AdminSchema = new Schema<Admin>({
     }
 })
 
-export default model('Admin', AdminSchema)
+export default model('AdminModel', AdminSchema)

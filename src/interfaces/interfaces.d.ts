@@ -1,5 +1,4 @@
 type Role = 'Admin' | 'User'
-export type ValidVoter = { status: boolean, reason?: string }
 
 export interface Region {
   province: string,
@@ -21,7 +20,7 @@ export interface Deputy extends BasicInfo, Pick<Region, 'province'> {
 
 export interface Voter extends BasicInfo, Pick<Region, 'province'> {
   ci: string,
-  isValidVoter: ValidVoter
+  isValidVoter: boolean
 }
 
 export interface Admin extends Pick<BasicInfo, 'name'> {

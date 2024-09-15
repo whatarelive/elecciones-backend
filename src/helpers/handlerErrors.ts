@@ -1,5 +1,5 @@
-import express from 'express';
-import AuthError from '../errors/CustomErrors';
+import express from 'express'
+import { AuthError, ResourceError } from '../errors/CustomErrors'
 
 interface Props {
     res: express.Response,
@@ -7,9 +7,9 @@ interface Props {
 }
 
 export const handlerError = ({res, error}: Props) => {
-    console.log(error)
+    // console.log(error)
 
-    if (!(error instanceof AuthError)) {
+    if (!(error instanceof AuthError || ResourceError)) {
         error['message'] = 'Por favor contacte con el servicio tecnico.'
         error['statusCode'] = 500
     }
