@@ -18,7 +18,7 @@ export const createVoter = async (req: Request, res: Response) => {
   try {
     let voter = await VoterModel.findOne({ci})
     
-    if (voter) throw new ResourceError('')
+    if (voter) throw new ResourceError(404,'')
 
     const newVoter: Voter = {
       name, age, ci, province, town,

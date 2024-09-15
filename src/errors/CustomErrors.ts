@@ -7,18 +7,18 @@ class CustomError extends Error {
     constructor(
         type: ErrorType, 
         message: string,
-        status: number | undefined = 400,
+        status: number,
     ) {
         super(message)
-        this.status = status
         this.type = type
+        this.status = status
     }
 }
 
 export class AuthError extends CustomError {
     constructor(
+        status: number, 
         message: string,
-        status?: number, 
     ) {
         super('Not-Authenticate',  message, status)
     }
@@ -26,8 +26,8 @@ export class AuthError extends CustomError {
 
 export class ResourceError extends CustomError {
     constructor(
+        status: number,
         message: string,        
-        status?: number,
     ) {
         super('Invalid Resource', message, status)   
     }

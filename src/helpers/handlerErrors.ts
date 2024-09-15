@@ -11,10 +11,10 @@ export const handlerError = ({res, error}: Props) => {
 
     if (!(error instanceof AuthError || ResourceError)) {
         error['message'] = 'Por favor contacte con el servicio tecnico.'
-        error['statusCode'] = 500
+        error['status'] = 500
     }
 
-    return res.status(error.statusCode).json({
+    return res.status(error.status).json({
         ok: false,
         message: error.message
     })

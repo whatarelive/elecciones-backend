@@ -21,10 +21,10 @@ export const loginVoter = async (req: Request, res: Response) => {
     let voter = await VoterModel.findOne({name})
 
     // Si el voter no existe lanzamos un error de Resource.
-    if (!voter) throw new ResourceError(`El votante con el nombre: ${name} no existe.`)
+    if (!voter) throw new ResourceError(404, `El votante con el nombre: ${name} no existe.`)
 
     // Si los valores de CI no son iguales lanzamos un error de Auth.
-    if (ci.trim() !== voter.ci) throw new AuthError(`El numero de carnet: ${ci} no es valido.`)
+    if (ci.trim() !== voter.ci) throw new AuthError(400, `El numero de carnet: ${ci} no es valido.`)
      
     // Despues de comprobar todos los datos, creamos el token para el voter. 
     const token = await createJwt({uid: voter._id, name, role: 'User'})
@@ -37,7 +37,7 @@ export const loginVoter = async (req: Request, res: Response) => {
 
   } catch (error) {
     // Manejo especial del error.
-    return handlerError({res, error})
+    handlerError({res, error})
   }
 }
 
@@ -51,13 +51,13 @@ export const loginAdmin = async (req: Request, res: Response) => {
     const admin = await AdminModel.findOne({name})
 
     // Si el admin no existe lanzamos un error de Auth.
-    if (!admin) throw new ResourceError(`El admin con el nombre: ${name} no existe.`)
+    if (!admin) throw new ResourceError(404, `El admin con el nombre: ${name} no existe.`)
 
     // Comprobamos que ambas contraseñas sean iguales despues de desencriptar la almacenada en la BD.
     const validPassword = bcryptjs.compareSync( password, admin.password )
     
     // Si la constraseñas no son iguales lanzamos un error de Auth.
-    if (!validPassword) throw new AuthError('La contraseña es incorrecta.')
+    if (!validPassword) throw new AuthError(400, 'La contraseña es incorrecta.')
     
     // Despues de comprobar todos los datos, creamos el token para el admin. 
     const token = await createJwt({ name, uid: admin._id, role: 'Admin' })
@@ -78,19 +78,25 @@ export const loginAdmin = async (req: Request, res: Response) => {
 export const updateAdmin = async (req: Request, res: Response) => {
   // Extraemos los datos necesarios del cuerpo de la request.
   const id = req.params.id
+  // Recuperamos el rol del user o admin extraido del token en los headers.
+  const role = req.header('role')
 
   try {
+    // Comprobamos que tengan la autorizacion requerida el token.
+    if (role !== 'Admin') throw new AuthError(401, 'Autorizacion erronea.')
+
     // Buscamos el admin con el name proporcionado.
     let admin = await AdminModel.findById(id)
 
     // Si el admin no existe lanzamos un error de Auth.
-    if (!admin) throw new ResourceError(`El no puede modificar un admin que no existe.`)
+    if (!admin) throw new ResourceError(404, `El no puede modificar un admin que no existe.`)
 
     // Desestructuramos el body.
     const { name, password } = req.body
     // Creamos el nuevo objeto admin.
     const newAdmin: Admin = { name, password } 
 
+    // Encriptacion de la contraseña.
     const salt = bcryptjs.genSaltSync()
     newAdmin.password = bcryptjs.hashSync(password, salt)
 
@@ -114,9 +120,9 @@ export const updateAdmin = async (req: Request, res: Response) => {
 
 // Controlador para regenerar un nuevo Token. 
 export const revalidateJWT = async (req: Request, res: Response) => {
-  const uid  = req.header('uid')
-  const name  = req.header('name')
-  const role  = req.header('role')
+  const uid = req.header('uid')
+  const name = req.header('name')
+  const role = req.header('role')
 
   const newToken = await createJwt({ uid, name: (name as string), role: (role as Role) })
 
