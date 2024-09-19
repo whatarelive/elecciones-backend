@@ -80,7 +80,6 @@ export const votersCreateValidationChain = [
   ...basicInformationValidationChain, // nombre y edad
   ...auxiliaryValidationChain, // provincia y municipio
   validateField,
-  validarJWT
 ]
 
 // Validación de los campos de la Request: [updateVoter]
@@ -112,7 +111,7 @@ export const adminLoginValidationChain = [
 
 // Validación de los campos de la Request: [UpdateAdmin]
 export const adminUpdateValidationChain = [
-  idParamValidationChain[0],
+  body('id').notEmpty().isMongoId(),
   ...adminLoginValidationChain,
   validarJWT,
   validateRole

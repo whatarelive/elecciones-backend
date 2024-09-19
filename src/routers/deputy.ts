@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { validarJWT, validateRole } from '../middlewares'
 import * as controller from '../controllers/deputy'
 import * as validate from '../validations/validationChains'
 
@@ -10,6 +11,8 @@ deputiesRouter.get('/', controller.getDeputies)
 
 // Ruta para devolver todos los [Diputado] de una {provincia}.
 deputiesRouter.get('/:province', validate.provinceParamValidationChain, controller.getDeputiesForProvince)
+
+deputiesRouter.use([validarJWT, validateRole])
 
 // Ruta para crear un nuevo [Diputado].
 deputiesRouter.post('/', validate.deputyCreateValidationChain, controller.createDeputy)

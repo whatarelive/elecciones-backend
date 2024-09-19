@@ -4,6 +4,10 @@ import { basicParams } from './BasicParams'
 
 const VoterSchema = new Schema<Voter>({
     ...basicParams,
+    ci: {
+        required: true,
+        type: String
+    },
     isValidVoter: {
         required: true,
         type: Boolean

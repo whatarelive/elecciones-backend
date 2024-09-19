@@ -1,4 +1,5 @@
 import { Router } from 'express'
+import { validarJWT, validateRole } from '../middlewares'
 import * as controller from '../controllers/voters'
 import * as validate from '../validations/validationChains'
 
@@ -7,6 +8,9 @@ export const votersRouter = Router()
 
 // Ruta para devolver todos los [Votantes] de un {Municipio} de la {Provincia}.
 votersRouter.get('/:province/:town', validate.townAndProvinceParamValidationChain, controller.getVotersForTownInProvince)
+
+// Middleware para las rustas siguientes.
+votersRouter.use([ validarJWT, validateRole ])
 
 // Ruta para crear un nuevo [Votante].
 votersRouter.post('/', validate.votersCreateValidationChain, controller.createVoter)

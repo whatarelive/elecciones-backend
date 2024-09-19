@@ -72,7 +72,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
 // Controlador para actualizar la informacion del Admin.
 export const updateAdmin = async (req: Request, res: Response) => {
   // Extraemos los datos necesarios del cuerpo de la request.
-  const id = req.params.id
+  const { id } = req.body
 
   try {
     // Buscamos el admin con el name proporcionado.

@@ -7,7 +7,7 @@ export const createJwt = ({ uid, name, role }: JWTPayload) => {
         const payload = { uid, name, role }
 
         jsonwebtoken.sign(payload, process.env.SECRET_JWT_SEED!, {
-            expiresIn: '1h'
+            expiresIn: '4h'
         }, (error, token) => {
             if (error) {
                 console.log(error)
