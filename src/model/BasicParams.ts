@@ -1,3 +1,4 @@
+// Objeto con las propiedades comunes entre los modelos actuales.
 export const basicParams = {
     name: {
         required: true,

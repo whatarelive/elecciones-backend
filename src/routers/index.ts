@@ -1,4 +1,4 @@
 export * from './auth'
-export * from './voters'
+export * from './users'
 export * from './votes'
 export * from './deputy'

@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
-import { Deputy } from '../interfaces/interfaces'
 import { basicParams } from './BasicParams'
+import { Deputy } from '../interfaces/interfaces'
 
 const DeputySchema = new Schema<Deputy>({
     ...basicParams,

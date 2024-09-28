@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose'
-import { Voter } from '../interfaces/interfaces'
 import { basicParams } from './BasicParams'
+import { Voter } from '../interfaces/interfaces'
 
 const VoterSchema = new Schema<Voter>({
     ...basicParams,
