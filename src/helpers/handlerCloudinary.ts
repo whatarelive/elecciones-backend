@@ -10,7 +10,14 @@ export const uploadImage = async({ image }: uploadProps) => {
     let result
     
     // Si existe la imagen se guarda en Cloudinary
-    if (image) result = await cloudinary.uploader.upload(image?.path)  
+    if (image) {
+        result = await cloudinary.uploader.upload(image?.path)  
+        
+        cloudinary.url( result.public_id, {
+            fetch_format: 'auto',
+            quality: 'auto'
+        });
+    } 
 
     // Dependiendo de la existencia de la imagen, se usan las propiedades de {result} o del {process.env}
     const image_path = image ? result?.secure_url : process.env.DEFAULT_IMAGE_URL
