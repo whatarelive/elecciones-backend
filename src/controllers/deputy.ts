@@ -1,19 +1,29 @@
 import { Request, Response } from 'express'
 import { DeputyModel } from '../model'
-import { handlerError, uploadImage, updateImage, deleteImage } from '../helpers'
+import { handlerError, handlerPaginate, uploadImage, updateImage, deleteImage } from '../helpers'
 import { ResourceError } from '../errors/CustomErrors'
 import { Deputy } from '../interfaces/interfaces'
 
 // Controlador para recuperar todos los diputados.
-export const getDeputies = async (_req: Request, res: Response) => {
+export const getDeputies = async (req: Request, res: Response) => {
+    // Extraemos los querys de paginación de los elementos.
+    const { page, limit } = req.query
+
   try {
+    // Se realiza el calculo de las propiedades de paginación.
+    const { skip, limitNumber } = handlerPaginate({page, limit})
+
     // Se extraen todos los diputados de la base de datos.
-    const deputies = await DeputyModel.find()
+    const deputies = await DeputyModel.find().skip(skip).limit(limitNumber)
+    // Calculamos la cantidad de diputados en la Base de Datos. 
+    const totalDeputies = await DeputyModel.countDocuments()
 
     res.json({
       ok: true,
-      deputies
+      deputies,
+      totalElements: Math.ceil(totalDeputies / limitNumber)
     })
+
   } catch (error) {
     // Manejo especial del error.
     return handlerError({res, error})
@@ -24,14 +34,22 @@ export const getDeputies = async (_req: Request, res: Response) => {
 export const getDeputiesForProvince = async (req: Request, res: Response) => {
   // Extraemos el parametro de busqueda de la request.
   const { province } = req.params
-
+  // Extraemos los querys de paginación de los elementos.
+  const { page, limit } = req.query
+  
   try {
+    // Se realiza el calculo de las propiedades de paginación.
+    const { skip, limitNumber } = handlerPaginate({page, limit})
+
     // Extraemos los diputados desde la base de datos filtrando por provincia.
-    const deputies = DeputyModel.find({province})
-    
+    const deputies = await DeputyModel.find({province}).skip(skip).limit(limitNumber)
+    // Calculamos la cantidad de diputados en la Base de Datos. 
+    const totalDeputies = await DeputyModel.countDocuments({province})
+
     res.json({
       ok: true,
-      deputies
+      deputies,
+      totalElement: Math.ceil(totalDeputies / limitNumber)
     })
     
   } catch (error) {

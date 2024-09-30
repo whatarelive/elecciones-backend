@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs'
 import { Request, Response } from 'express'
 import { VoterModel, AdminModel } from '../model'
-import { createJwt, handlerError, updateImage, deleteImage } from '../helpers'
+import { createJwt, handlerError, handlerPaginate, updateImage, deleteImage } from '../helpers'
 import { ResourceError } from '../errors/CustomErrors'
 import { Admin, Voter } from '../interfaces/interfaces'
 import validRegion from '../constants/contants.json'
@@ -10,8 +10,13 @@ import validRegion from '../constants/contants.json'
 export const getVotersForTownInProvince = async (req: Request, res: Response) => {
   // Extraemos los parametros de busquedad de los param de la request.
   const { province, town } = req.params
+  // Extraemos los querys de paginación de los elementos.
+  const { page, limit } = req.query
   
   try {
+    // Se realiza el calculo de las propiedades de paginación.
+    const { skip, limitNumber } = handlerPaginate({ page, limit })
+    
     // Recuperamos la region{provincia + municipios} (escrita correctamente) de las constantes.
     const region = validRegion.filter(v => v.province.replace(/\s/g, '').toLowerCase() === province).pop()
     
@@ -19,7 +24,16 @@ export const getVotersForTownInProvince = async (req: Request, res: Response) =>
     const searchTown = region?.towns.filter(v => v.replace(/\s/g, '').toLocaleLowerCase() === town ).pop()
 
     // Buscamos los votantes segun la provincia y el municipio. 
-    const voters = await VoterModel.find({province: region?.province, town: searchTown})    
+    const voters = await VoterModel.find({
+      province: region?.province, 
+      town: searchTown
+    }).skip(skip).limit(limitNumber)    
+
+    // Calculamos la cantidad de diputados en la Base de Datos. 
+    const totalVoters = await VoterModel.countDocuments({
+      province: region?.province, 
+      town: searchTown
+    })
     
     // Si no hay votantes, lanzamos un error de Resource.
     if (!voters) throw new ResourceError(404, `No se encontraron votantes del municipio ${searchTown} de la provincia: ${region?.province}`)
@@ -27,6 +41,7 @@ export const getVotersForTownInProvince = async (req: Request, res: Response) =>
     res.json({
       ok: true,
       voters,
+      totalElements: Math.ceil( totalVoters / limitNumber )
     })
     
   } catch (error) {
