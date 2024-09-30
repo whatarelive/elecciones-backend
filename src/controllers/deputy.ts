@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 import { DeputyModel } from '../model'
-import { handlerError } from '../helpers'
+import { handlerError, uploadImage, updateImage, deleteImage } from '../helpers'
 import { ResourceError } from '../errors/CustomErrors'
 import { Deputy } from '../interfaces/interfaces'
 
@@ -43,19 +43,24 @@ export const getDeputiesForProvince = async (req: Request, res: Response) => {
 // Controlador para crear un nuevo diputado.
 export const createDeputy = async (req: Request, res: Response) => {
   // Extraemos los datos necesarios del cuerpo de la request.
-  const { name, age, image, position, province, town, biography } = req.body
-
+  const { name, age, position, province, town, biography } = req.body
+ 
   try {
     // Buscamos al diputado en la base de datos por el nombre. 
     let deputy = await DeputyModel.findOne({name})
 
     // Si el diputado ya esxiste en la base de datos, lanzamos un error de Resource.
     if(deputy) throw new ResourceError(400, 'El diputado ya existe en el sistema.')
- 
+
+    // Subimos la imagen a Cloudinary.
+    const { image_path, image_publicId } = await uploadImage({ image: req.file })
+   
     // Creamos el nuevo objeto diputado.
-    const newDeputy = new DeputyModel({
-      name, age, image, position, province, 
-      town, biography, votes: 0
+    const newDeputy = new DeputyModel<Deputy>({
+      name, age, 
+      image_path, image_publicId, 
+      position, province, town, 
+      biography, votes: 0
     })
 
     // Guardamos el diputado en la Base de Datos.
@@ -85,12 +90,18 @@ export const updateDeputy = async (req: Request, res: Response) => {
     if (!deputy) throw new ResourceError(404, `No se encontro el diputado con el id: ${deputyId}`)
     
     // Extraemos los datos necesarios del cuerpo de la request.
-    const { name, age, image, position, province, town, biography, votes } = req.body
+    const { name, age, position, province, town, biography, votes } = req.body
+
+    // Remplazamos la imagen en Cloudinary.
+    const { image_path, image_publicId } = await updateImage({ image: req.file, model: deputy })
 
     // Creamos el nuevo objeto diputado.
     const newDeputy: Deputy = {
-      name, age, position, province,
-      town, biography, image, votes
+      name, age,
+      image_path, 
+      image_publicId, 
+      position, province, town, 
+      biography, votes
     }
 
     // Buscamos y actualizamos el diputado en la base de datos.
@@ -118,6 +129,12 @@ export const deleteDeputy = async (req: Request, res: Response) => {
 
     // Si no existe el diputado, lanzamos un error de Resource.
     if (!deputy) throw new ResourceError(404, `No se encontro al diputado con el id ${deputyId}`)
+
+    // Eliminar la imagen de Cloudinary. 
+    await deleteImage({ 
+      publicId: deputy.image_publicId, 
+      imagePath: deputy.image_path 
+    })
 
     // Buscamos y eliminamos el diputado de la base de datos.
     await DeputyModel.findByIdAndDelete(deputyId)

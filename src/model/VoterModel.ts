@@ -6,6 +6,7 @@ const VoterSchema = new Schema<Voter>({
     ...basicParams,
     ci: {
         required: true,
+        unique: true,
         type: String
     },
     isValidVoter: {

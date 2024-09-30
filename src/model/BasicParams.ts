@@ -8,6 +8,14 @@ export const basicParams = {
         required: true,
         type: Number
     },
+    image_path: {
+        required: true,
+        type: String
+    },
+    image_publicId: {
+        required: true,
+        type: String
+    },
     province: {
         required: true,
         type: String

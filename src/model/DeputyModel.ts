@@ -4,10 +4,6 @@ import { Deputy } from '../interfaces/interfaces'
 
 const DeputySchema = new Schema<Deputy>({
     ...basicParams,
-    image: {
-        required: true,
-        type: String
-    },
     position: {
         required: true,
         type: String

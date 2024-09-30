@@ -2,6 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import { config } from 'dotenv'
 import { createConnect } from './database/config'
+import { cloudinaryConfig } from './images/config'
 import { authRouter, usersRouter, votesRouter, deputiesRouter } from './routers'
 
 // Creación de la aplicación de Express.
@@ -16,6 +17,9 @@ app.use(cors()) // Configuración previa de Cors.
 
 // permite la lectura de archivos .env
 config() 
+
+// Establece la configuración de conexión a Cloudinary.  
+cloudinaryConfig()
 
 // Establecer conexion con la Base de Datos de MongoDB.
 createConnect()

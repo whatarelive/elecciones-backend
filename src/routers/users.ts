@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { validarJWT, validateRole } from '../middlewares'
+import { upload } from '../constants/multer'
 import * as controller from '../controllers/users'
 import * as validate from '../validations/validationChains'
 
@@ -10,7 +11,7 @@ export const usersRouter = Router()
 usersRouter.use([ validarJWT ])
 
 // Ruta para actualizar los datos de un [Votante] por su {id}.
-usersRouter.put('/:id', validate.votersUpdateValidationChain, controller.updateVoter)
+usersRouter.put('/:id', upload.single('image'), validate.votersUpdateValidationChain, controller.updateVoter)
 
 // Ruta para eliminar un [Votante] por su {id}.
 usersRouter.delete('/:id', validate.idParamValidationChain, controller.deleteVoter)

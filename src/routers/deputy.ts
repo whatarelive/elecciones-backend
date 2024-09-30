@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import { validarJWT, validateRole } from '../middlewares'
+import { upload } from '../constants/multer'
 import * as controller from '../controllers/deputy'
 import * as validate from '../validations/validationChains'
 
@@ -15,10 +16,10 @@ deputiesRouter.get('/:province', validate.provinceParamValidationChain, controll
 deputiesRouter.use([validarJWT, validateRole])
 
 // Ruta para crear un nuevo [Diputado].
-deputiesRouter.post('/', validate.deputyCreateValidationChain, controller.createDeputy)
+deputiesRouter.post('/', upload.single('image'), validate.deputyCreateValidationChain, controller.createDeputy)
 
 // Ruta para actualizar un [Diputado] por su {id}.
-deputiesRouter.put('/:id', validate.deputyUpdateValidationChain, controller.updateDeputy)
+deputiesRouter.put('/:id', upload.single('image'), validate.deputyUpdateValidationChain, controller.updateDeputy)
 
 // Ruta para eliminar un [Diputado] por su {id}.
 deputiesRouter.delete('/:id', validate.idParamValidationChain, controller.deleteDeputy)

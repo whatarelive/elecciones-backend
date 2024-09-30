@@ -7,6 +7,7 @@ interface Props {
     error: any,
 }
 
+// Función para manejar los errores en el servidor. 
 export const handlerError = ({res, error}: Props) => {
     // Si el error no es personalizado, se le agregan las propiedades al error.prototype
     if (!(error instanceof AuthError || ResourceError)) {

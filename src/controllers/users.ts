@@ -1,7 +1,7 @@
 import bcryptjs from 'bcryptjs'
 import { Request, Response } from 'express'
 import { VoterModel, AdminModel } from '../model'
-import { createJwt, handlerError } from '../helpers'
+import { createJwt, handlerError, updateImage, deleteImage } from '../helpers'
 import { ResourceError } from '../errors/CustomErrors'
 import { Admin, Voter } from '../interfaces/interfaces'
 import validRegion from '../constants/contants.json'
@@ -49,10 +49,14 @@ export const updateVoter = async (req: Request, res: Response) => {
       
     // Desestructuramos los datos necesarios de la request.body.
     const { name, age, ci, province, town, isValidVoter } = req.body
+  
+    // Remplazamos la imagen en Cloudinary.
+    const { image_path, image_publicId } = await updateImage({ image: req.file, model: voter })
       
     // Creamos el nuevo objeto del votante.
     const newVoter: Voter = {
-      name, age, ci, 
+      name, age, ci,
+      image_path, image_publicId, 
       province, town,
       isValidVoter
     }
@@ -113,6 +117,7 @@ export const updateAdmin = async (req: Request, res: Response) => {
 
 // Controlador para eliminar un votante.
 export const deleteVoter = async (req: Request, res: Response) => {
+  // Extraemos la id del voter de los parametros de la request.
   const voterId = req.params.id
 
   try {
@@ -122,6 +127,12 @@ export const deleteVoter = async (req: Request, res: Response) => {
     // Si no existe, lanzamos un error de Resource.
     if (!voter) throw new ResourceError(404, `No se encontro al votante con el id: ${voterId}`)
 
+    // Eliminamosla imagen de Cloudinary 
+    await deleteImage({ 
+      publicId: voter.image_publicId, 
+      imagePath: voter.image_path 
+    })
+  
     // Buscamos y eliminamos el votante de la base de datos.
     await VoterModel.findByIdAndDelete(voterId)
     

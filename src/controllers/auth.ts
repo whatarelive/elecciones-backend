@@ -3,6 +3,7 @@ import { Request, Response } from 'express'
 import { AdminModel, VoterModel } from '../model'
 import { createJwt, handlerError, isRole } from '../helpers'
 import { AuthError, ResourceError } from '../errors/CustomErrors'
+import { Voter } from '../interfaces/interfaces'
 
 // Controlador para agregar un nuevo Votante.
 export const registerVoter = async (req: Request, res: Response) => {
@@ -16,9 +17,17 @@ export const registerVoter = async (req: Request, res: Response) => {
     // Si el votante ya existe en la Base de datos, lanzamos un error de Resource. 
     if (voter) throw new ResourceError(400,'El votante ya existe en el sistema.')
 
+    // Creamos la imagen por defecto al votante.
+    const { image_path, image_publicId } = {
+      image_path: process.env.DEFAULT_IMAGE_URL!,
+      image_publicId: process.env.DEFAULT_IMAGE_PUBLIC_ID!,
+    }
+
     // Creacion del nuevo votante.
-    const newVoter = new VoterModel({
-      name, age, ci, province, town,
+    const newVoter = new VoterModel<Voter>({
+      name, age, ci, 
+      image_path, image_publicId,
+      province, town,
       isValidVoter: true 
     })
 

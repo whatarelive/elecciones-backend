@@ -52,7 +52,7 @@ export const townAndProvinceParamValidationChain = [
 
 // Validación de los campos del diputado:
 export const deputyCreateValidationChain = [
-  body(['image', 'position'], 'El campo es requerido.')
+  body('position', 'El campo es requerido.')
     .notEmpty()
     .isString(),
   body('biography')
@@ -123,5 +123,16 @@ export const setVotesValidationChain = [
     .notEmpty()
     .isMongoId()
     .withMessage('El valor no es un id valido de Mongo'),
-  validateField
+  validateField,
+  validarJWT
+]
+
+// Validación de los campos de la Request: [SetVotesData]
+export const seVotesDataValidationChain = [
+  body(['elecciones', 'finalDate'], 'El campo es requerido.')
+    .notEmpty()
+    .isString(),
+  validateField,
+  validarJWT,
+  validateRole,
 ]
