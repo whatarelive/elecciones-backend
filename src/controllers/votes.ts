@@ -42,7 +42,6 @@ export const setVotesData = async (req: Request, res: Response) => {
     const newEleciones = new EleccionesModel<Elecciones>({
       elecciones,
       finalDate,
-      cantVotes: 0
     });
 
     votacion = await newEleciones.save()
@@ -62,16 +61,30 @@ export const getVotesData = async (req: Request, res: Response) => {
 
   try {
     const data = await EleccionesModel.findOne({ elecciones })
-
+    
     if (!data) throw new ResourceError(404, 'No existe informacion para esas elecciones.')
+    
+    const cantDeputies = await DeputyModel.countDocuments()
+    const cantVotes = await DeputyModel.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalVotes: { $sum: '$votes' } 
+        }
+      }
+    ])
 
     res.json({
       ok: true,
-      data
+      data: {
+        elecciones: data.elecciones,
+        finalDate: data.finalDate,        
+        cantDeputies,
+        cantVotes
+      }
     })
 
   } catch (error) {
     return handlerError({ res, error })
   }
 }
-

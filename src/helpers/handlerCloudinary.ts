@@ -11,8 +11,8 @@ export const uploadImage = async({ image }: uploadProps) => {
     
     // Si existe la imagen se guarda en Cloudinary
     if (image) {
-        result = await cloudinary.uploader.upload(image?.path)  
-        
+        result = await cloudinary.uploader.upload(image.path)  
+
         cloudinary.url( result.public_id, {
             fetch_format: 'auto',
             quality: 'auto'
@@ -33,17 +33,20 @@ export const uploadImage = async({ image }: uploadProps) => {
 export const updateImage = async({ image, model }: updateProps) => {
     // Si existe una imagen en la request.
     // Primero eliminamos la imagen guardada en Cloudinary. 
+    let result
+    
     if ( image ) { 
         await deleteImage({ 
             publicId: model.image_publicId, 
             imagePath: model.image_path 
         })
+
+        result = await uploadImage({ image })
     }
     
     // luego subimos la nueva imagen a Cloudinary. 
-    return image 
-        ? await uploadImage({ image })
-        : {
+    return result 
+        || {
             image_path: model.image_path,
             image_publicId: model.image_publicId
         }

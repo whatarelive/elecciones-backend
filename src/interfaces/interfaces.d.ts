@@ -16,7 +16,6 @@ interface BasicInfo {
 export interface Elecciones {
   elecciones: string,
   finalDate: string,
-  cantVotes: number,
 }
 
 export interface Deputy extends BasicInfo, Pick<Region, 'province'> {

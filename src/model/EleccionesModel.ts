@@ -10,10 +10,6 @@ const EleccionesSchema = new Schema<Elecciones>({
     finalDate: {
         type: String,
         required: true
-    },
-    cantVotes: {
-        type: Number,
-        required: true
     }
 })
 

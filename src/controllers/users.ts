@@ -41,7 +41,7 @@ export const getVotersForTownInProvince = async (req: Request, res: Response) =>
     res.json({
       ok: true,
       voters,
-      totalElements: Math.ceil( totalVoters / limitNumber )
+      totalElements: totalVoters
     })
     
   } catch (error) {

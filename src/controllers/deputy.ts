@@ -21,7 +21,7 @@ export const getDeputies = async (req: Request, res: Response) => {
     res.json({
       ok: true,
       deputies,
-      totalElements: Math.ceil(totalDeputies / limitNumber)
+      totalElements: totalDeputies
     })
 
   } catch (error) {
@@ -49,7 +49,7 @@ export const getDeputiesForProvince = async (req: Request, res: Response) => {
     res.json({
       ok: true,
       deputies,
-      totalElement: Math.ceil(totalDeputies / limitNumber)
+      totalElement: totalDeputies
     })
     
   } catch (error) {

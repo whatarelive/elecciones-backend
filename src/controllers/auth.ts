@@ -35,7 +35,7 @@ export const registerVoter = async (req: Request, res: Response) => {
     voter = await newVoter.save()
 
     // Despues de guardar el votante, creamos el token para el votante con el rol de Usuario. 
-    const token = createJwt({ uid: voter._id, name, role: 'User'})
+    const token = await createJwt({ uid: voter._id, name, role: 'User'})
 
     res.status(201).json({
       ok: true,
@@ -102,7 +102,6 @@ export const loginAdmin = async (req: Request, res: Response) => {
 
     return res.json({
       ok: true,
-      admin,
       token
     })
 
