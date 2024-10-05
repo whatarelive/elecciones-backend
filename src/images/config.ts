@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from "cloudinary"
 
+// Configuración de las variables de conexión al servicio de cloudinary.
 export const cloudinaryConfig = () => {
     cloudinary.config({
         cloud_name: process.env.CLOUD_NAME,

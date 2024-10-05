@@ -21,7 +21,7 @@ export const getVotersForTownInProvince = async (req: Request, res: Response) =>
     const region = validRegion.filter(v => v.province.replace(/\s/g, '').toLowerCase() === province).pop()
     
     // Extraemos el municipio (escrita correctamente).
-    const searchTown = region?.towns.filter(v => v.replace(/\s/g, '').toLocaleLowerCase() === town ).pop()
+    const searchTown = region?.towns.filter(v => v.replace(/\s/g, '').toLowerCase() === town ).pop()
 
     // Buscamos los votantes segun la provincia y el municipio. 
     const voters = await VoterModel.find({
@@ -79,7 +79,7 @@ export const updateVoter = async (req: Request, res: Response) => {
     // Buscamos y actualizmos el votante en la base de datos. 
     voter = await VoterModel.findByIdAndUpdate(voterId, newVoter, { new: true })
 
-    res.status(200).json({
+    res.json({
       ok: true,
       voter,
     })
@@ -118,7 +118,7 @@ export const updateAdmin = async (req: Request, res: Response) => {
     // Despues de comprobar todos los datos, creamos el token para el nuevo admin. 
     const token = await createJwt({ name, uid: admin!._id, role: 'Admin' })
 
-    return res.json({
+    res.json({
       ok: true,
       admin,
       token

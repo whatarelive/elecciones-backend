@@ -67,7 +67,7 @@ export const loginVoter = async (req: Request, res: Response) => {
     // Despues de comprobar todos los datos, creamos el token para el votante con el rol de Usuario. 
     const token = await createJwt({uid: voter._id, name, role: 'User'})
 
-    return res.json({
+    res.json({
       ok: true,
       voter,
       token
@@ -100,7 +100,7 @@ export const loginAdmin = async (req: Request, res: Response) => {
     // Despues de comprobar todos los datos, creamos el token para el admin, con el rol de Administrador. 
     const token = await createJwt({ name, uid: admin._id, role: 'Admin' })
 
-    return res.json({
+    res.json({
       ok: true,
       token
     })

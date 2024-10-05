@@ -125,7 +125,7 @@ export const updateDeputy = async (req: Request, res: Response) => {
     // Buscamos y actualizamos el diputado en la base de datos.
     deputy = await DeputyModel.findByIdAndUpdate(deputyId, newDeputy, { new: true })
 
-    res.status(203).json({
+    res.json({
       ok: true,
       deputy,
     })
