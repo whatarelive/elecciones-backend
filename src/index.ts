@@ -1,6 +1,6 @@
 import express from 'express'
+import cors from 'cors'
 import { config } from 'dotenv'
-import { validateCors } from './middlewares'
 import { createConnect } from './database/config'
 import { cloudinaryConfig } from './images/config'
 import { authRouter, usersRouter, votesRouter, deputiesRouter } from './routers'
@@ -13,7 +13,7 @@ app.disable('x-powered-by')
 
 // Middlewares
 app.use(express.json()) // Configuración para convertir el body a JSON.
-app.use(validateCors()) // Configuración completa de CORS.
+app.use(cors()) // Configuración completa de CORS.
 
 // permite la lectura de archivos .env
 config() 
